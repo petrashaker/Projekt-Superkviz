@@ -1,29 +1,42 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Bangers&subset=latin-ext');
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,400i,700,700i&subset=latin-ext');
 
-* {
-  box-sizing: border-box;
+/* nastaveni barev */
+:root {
+	--cervena: #ff0844;
+	--oranzova: #ffb199;
+	--seda: #e0e0e0;
 }
 
-html {
-  font-family: 'Open Sans', sans-serif;
+
+/* Magie a jednorožci */
+html { box-sizing: border-box; }
+*, ::before, :after { box-sizing: inherit; }
+
+
+body {
+	max-width: 65rem;
+	min-height: 100vh;
+	margin: 0 auto;
+	font-family: 'Nunito', sans-serif;
+	background-image: linear-gradient(to top, var(--cervena) 0%, var(--oranzova) 100%);
 }
 
-.container {
-  max-width: 26rem;
-  margin-right: auto;
-  margin-left: auto;
+h1, h2, h3 {
+	font-family: 'Bangers', cursive;
+	font-weight: normal;
 }
 
-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 4rem;
-}
+h1 { font-size: 60px; }
+h2 { font-size: 48px; }
+h3 { font-size: 24px; }
 
-.logo {
-  width: 10rem;
-  height: 10rem;
-  background-image: url(./img/rocket.svg);
-  background-size: contain;
+
+
+/* ---------------------------------------*/
+/* main */
+/* ---------------------------------------*/
+
+.main {
+	margin: 60px 0;
 }
