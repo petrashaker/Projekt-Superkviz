@@ -6,24 +6,26 @@ import { Link, Outlet, Switch, useRouteMatch } from "react-router-dom";
 
 
 
-const Kvizy = () => {
+const Kvizy = ({quiznb}) => {
     // let { path, url } = useRouteMatch();
-    // const {id} = useParams()
-    const [quizes, setQuizes] = useState(null);
 
-    const fetchQuizes = () => {
+    const [quizes, setQuizes] = useState(null);
+    useEffect(() => {
         fetch('https://raw.githubusercontent.com/Czechitas-React-podklady/superkviz-api/main/quizes.json')
         .then(response => response.json())
         .then(json => setQuizes(json))
-    }
-    useEffect(() => {
-        fetchQuizes();
     }, [])
-
+    console.log(quizes)
+    
     const navigate = useNavigate()
     const handleClick = () => {
-        navigate('/otazky') 
+        // setQuizNb(quiznb)
+        navigate(`${quiznb}`)         
     }
+
+    // const handleClick = () => {
+    //     setQuizNb(quiznb)
+    // }
 
     return quizes && ( 
         <main className="main">
@@ -45,9 +47,9 @@ const Kvizy = () => {
             </div>)}
             <Outlet /> */}
 
-            {quizes.map((it, id) =>  
-            <div className="quiz-item" key={id}>
-                <img className="quiz-item__image" src={it.image} alt="Mončičák"/>
+            {quizes.map(it =>  
+            <div className="quiz-item" key={it.id}>
+                <img className="quiz-item__image" src={it.image} alt={it.title}/>
                 <div className="quiz-item__content">
                     <h2 className="quiz-item__title">{it.title}</h2>
                     <p className="quiz-item__questions">Počet otázek: {it.questions}</p>

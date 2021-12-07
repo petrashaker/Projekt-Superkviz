@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { render } from 'react-dom';
 import './style.css';
 
@@ -11,26 +11,37 @@ import Footer from './components/Footer';
 import Otazky from './components/Otazky';
 import Vyhodnoceni from './components/Vyhodnoceni';
 
+const App = () => {
+  //předání call back fce do komponenty Otazky pro získání čísla kvízu - NEFUNGUJE
+  const[quiznb, setQuiznb] = useState(1)
+  const handleQuiznb = (quiznb) => {
+    setQuiznb(quiznb)
+  }
+  // console.log(quiznb)
 
-const App = () => (
-  <>
-    <BrowserRouter>
-      
-      <Header />
+  useEffect(() => {}, [quiznb])
 
-      <Routes>
-        <Route path="*" element={ <Uvod />} />
-        <Route path="/kvizy" element={ <Kvizy />} >
-          <Route path=":id" element={ <Otazky /> } />
-        </Route>
-        <Route path="/zebricek" element={ <Zebricek />} />
-        <Route path="/otazky" element={ <Otazky />} />
-        <Route path="/vyhodnoceni" element={ <Vyhodnoceni />} />
-      </Routes>
+  return (
+    <>
+      <BrowserRouter>
+        
+        <Header />
 
-      <Footer />
-    </BrowserRouter>
-  </>
-);
+        <Routes>
+          <Route path="*" element={ <Uvod />} />
+          <Route path="/kvizy" element={ <Kvizy quiznb={quiznb}/>} >
+            <Route path=":id" element={ <Otazky handleQuiznb={handleQuiznb}/> } />
+            <Route path=":ev" element={ <Vyhodnoceni /> } />
+          </Route>
+          <Route path="/zebricek" element={ <Zebricek />} />
+          <Route path="/otazky" element={ <Otazky />} />
+          <Route path="/vyhodnoceni" element={ <Vyhodnoceni />} />
+        </Routes>
+
+        <Footer />
+      </BrowserRouter>
+    </>
+  )
+}
 
 render(<App />, document.querySelector('#app'));

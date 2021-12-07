@@ -1,35 +1,38 @@
 import React from "react";
+import { useParams } from "react-router";
 import './style.css';
 
 const Vyhodnoceni = () => {
+	const {ev} = useParams()
+
     return (
-        <main class="main">
+        <main className="main">
 
-		<div class="evaluation">
+		<div className="evaluation">
 
-			<h2 class="evaluation__title">Tvoje hodnocení</h2>
+			<h2 className="evaluation__title">Tvoje hodnocení</h2>
 
-			<div class="evaluation__content">
+			<div className="evaluation__content">
 
-				<div class="results">
+				<div className="results">
 
-					<div class="result">
-						<img class="result__icon" src="../assets/incorrect.svg" alt="špatně"/>
+					<div className="result">
+						<img className="result__icon" src="../assets/incorrect.svg" alt="špatně"/>
 
-						<div class="result__content">
-							<h3 class="result__title">1. Co je ikonická hračka z 80. let?</h3>
-							<p class="result__answer">Tvoje odpověď: Kočičák</p>
-							<p class="result__answer result__answer--correct">Správná odpověď: Mončičák</p>
+						<div className="result__content">
+							<h3 className="result__title">1. Co je ikonická hračka z 80. let?</h3>
+							<p className="result__answer">Tvoje odpověď: Kočičák</p>
+							<p className="result__answer result__answer--correct">Správná odpověď: Mončičák</p>
 						</div>
 					</div>
 
-					<div class="results__count">
+					<div className="results__count">
 						Správně máš 2 ze 3 otázek.
 					</div>
 
 				</div>
 
-				<div class="success-rate">
+				<div className="success-rate">
 					100 %
 				</div>
 

@@ -1,58 +1,93 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useParams } from "react-router";
+import Vyhodnoceni from "../Vyhodnoceni";
 import './style.css';
 
-const Otazky = () => {
+const Otazky = ({handleQuiznb}) => {
     const {id} = useParams()
-
-    const [otazky, setOtazky] = useState(null)
-    const [quizNb, setQuizNb] = useState([1, 2, 3])
-    // console.log(quizNb)
-
-    const quiz = quizNb.find(quiz => quiz.id == id)
-
-    const fetchOtazky = () => {
-        fetch('https://raw.githubusercontent.com/Czechitas-React-podklady/superkviz-api/main/quiz/1.json')
-        // fetch(`https://raw.githubusercontent.com/Czechitas-React-podklady/superkviz-api/main/quiz/${id}.json`)
-        .then(response => response.json())
-        .then(json => setOtazky(json))
-    }
-
+    //console.log(id)
+    
+    const [quizQuestions, setQuizQuestion] = useState(null)
     useEffect(() => {
-        fetchOtazky()
+        fetch(`https://raw.githubusercontent.com/Czechitas-React-podklady/superkviz-api/main/quiz/${quiz}.json`) //funguje id i quiz
+        .then(response => response.json())
+        .then(json => setQuizQuestion(json.questions))
     }, [])
-    console.log(otazky)
+    //console.log(quizQuestions) //celé pole
 
-    const [question, setQuestion] = useState()
-    const nextQuestion = () => {
-        setQuestion (otazky.questions + 1)
+    //výběr konkrétní otázky dle ID
+    const [currentQuest, setCurrentQuest] = useState(0)
+    const [score, setScore] = useState(0)
+    const [optionChosen, setOptionChosen] = useState()
+    const chooseOption = () => {
+        setOptionChosen(optionChosen)
     }
-    console.log(question)
+    //změna otázky
+    const handleNextQuest = (optionChosen) => {
 
-    return otazky &&(
-        <main className="main">
+        if(quizQuestions[currentQuest].correctAnswer == optionChosen) {
+            setScore(prevScore => prevScore + 1)
+        }
+        const nextQuestion = currentQuest + 1
+        if(nextQuestion < quizQuestions.length) {
+            setCurrentQuest(nextQuestion)
+        }
+        // } else {
+        //     <Vyhodnoceni />
+        // }
+    }
+    // const handleNextQuest = (optionChosen) => {
+    //     //takto se přičítá, ale vše a vždy, ne správná odpověď, není určen ani index otázky správné odpovědi
+    //     if(optionChosen === quizQuestions.correctAnswer) {
+    //         setScore(prevScore => prevScore + 1)
+    //     }
+    //     const nextQuestion = currentQuest + 1
+    //     if(nextQuestion < quizQuestions.length) {
+    //         setCurrentQuest(nextQuestion)
+    //     }
+    //     // } else {
+    //     //     <Vyhodnoceni />
+    //     // }
+    // }
+    console.log(score)
 
-        {otazky.questions.map(it => 
-        <div className="question" key={it.id}>
-            <p className="question__number">Otázka {it.id} / {otazky.questions.length}</p>
 
-			<h2 className="question__title">{it.title}</h2>
+    const [quizNb, setQuizNb] = useState([1,2,3])
+    const quiz = quizNb.find(quiz => quiz == id)
+    //console.log(quiz) //vrací číslo kvízu
+
+    //předání čísla kvizu do komponenty Kvízy před App.js
+    const changeQuiz = (quiz) => {
+        // setQuizNb(quiz) s tímhle aplikace spadne
+        handleQuiznb(quiz)
+    }
+    
+
+    return quizQuestions &&(
+        quizQuestions.length ? 
+       ( <main className="main">
+
+        <div className="question" onChange={changeQuiz}>
+            <p className="question__number">Otázka {quizQuestions[currentQuest].id} / {quizQuestions.length}</p>
+
+			<h2 className="question__title">{quizQuestions[currentQuest].title}</h2>
 
 			<div className="question__content">
-				<img className="question__image" src={it.image} alt="Ilustrační obrázek"/>
+				<img className="question__image" src={quizQuestions[currentQuest].image} alt="Ilustrační obrázek"/>
 
                 <div className="question__answers">
-                    {it.answers.map((answer, id) =>
-                        <button className="question__answer" key={answer + id} onClick={nextQuestion}>{answer}</button>
+                    {quizQuestions[currentQuest].answers.map((answer, id) =>
+                        <button className="question__answer" key={answer + id} onClick={() => handleNextQuest(optionChosen)}>{answer}</button>
                     )}
+                        {/* <button className="question__answer" key={answer + id} onClick={() => handleNextQuest(quizQuestions.correctAnswer)}>{answer}</button>
+                    )} */}
                 </div>
 
 			</div>
-        </div>)}
-
+        </div>
 		
-        </main>
-
+        </main>) 
+        : <Vyhodnoceni />
     )
 }
 
