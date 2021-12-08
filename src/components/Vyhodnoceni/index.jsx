@@ -7,7 +7,6 @@ const Vyhodnoceni = () => {
 
     return (
         <main className="main">
-
 		<div className="evaluation">
 
 			<h2 className="evaluation__title">Tvoje hodnocení</h2>

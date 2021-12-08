@@ -9,46 +9,32 @@ const Otazky = ({handleQuiznb}) => {
     
     const [quizQuestions, setQuizQuestion] = useState(null)
     useEffect(() => {
-        fetch(`https://raw.githubusercontent.com/Czechitas-React-podklady/superkviz-api/main/quiz/${quiz}.json`) //funguje id i quiz
+        fetch(`https://raw.githubusercontent.com/Czechitas-React-podklady/superkviz-api/main/quiz/${id}.json`) //funguje id i quiz
         .then(response => response.json())
         .then(json => setQuizQuestion(json.questions))
     }, [])
-    //console.log(quizQuestions) //celé pole
+    console.log(quizQuestions) //celé pole
 
     //výběr konkrétní otázky dle ID
     const [currentQuest, setCurrentQuest] = useState(0)
     const [score, setScore] = useState(0)
     const [optionChosen, setOptionChosen] = useState()
-    const chooseOption = () => {
-        setOptionChosen(optionChosen)
-    }
-    //změna otázky
-    const handleNextQuest = (optionChosen) => {
+    const chooseOption = (option) => {
+        //odchytávám odpověď jako string, např. Mončičák
+        setOptionChosen(option)
+    
 
-        if(quizQuestions[currentQuest].correctAnswer == optionChosen) {
+        //quizQuestions[currentQuest].correctAnswer je číslo
+        if(quizQuestions?.[currentQuest].correctAnswer == optionChosen) {
             setScore(prevScore => prevScore + 1)
         }
+
         const nextQuestion = currentQuest + 1
         if(nextQuestion < quizQuestions.length) {
             setCurrentQuest(nextQuestion)
         }
-        // } else {
-        //     <Vyhodnoceni />
-        // }
     }
-    // const handleNextQuest = (optionChosen) => {
-    //     //takto se přičítá, ale vše a vždy, ne správná odpověď, není určen ani index otázky správné odpovědi
-    //     if(optionChosen === quizQuestions.correctAnswer) {
-    //         setScore(prevScore => prevScore + 1)
-    //     }
-    //     const nextQuestion = currentQuest + 1
-    //     if(nextQuestion < quizQuestions.length) {
-    //         setCurrentQuest(nextQuestion)
-    //     }
-    //     // } else {
-    //     //     <Vyhodnoceni />
-    //     // }
-    // }
+    console.log(optionChosen) //odchytávám odpověď jako string, např. Mončičák
     console.log(score)
 
 
@@ -61,7 +47,9 @@ const Otazky = ({handleQuiznb}) => {
         // setQuizNb(quiz) s tímhle aplikace spadne
         handleQuiznb(quiz)
     }
-    
+
+    const answer1 = quizQuestions?.[currentQuest].correctAnswer
+    console.log(answer1)
 
     return quizQuestions &&(
         quizQuestions.length ? 
@@ -77,11 +65,13 @@ const Otazky = ({handleQuiznb}) => {
 
                 <div className="question__answers">
                     {quizQuestions[currentQuest].answers.map((answer, id) =>
-                        <button className="question__answer" key={answer + id} onClick={() => handleNextQuest(optionChosen)}>{answer}</button>
+                        <button className="question__answer" key={answer + id} onClick={() => chooseOption(answer)}>{answer}</button>
                     )}
                         {/* <button className="question__answer" key={answer + id} onClick={() => handleNextQuest(quizQuestions.correctAnswer)}>{answer}</button>
                     )} */}
                 </div>
+                {/* <p>Correct answer was {quizQuestions[currentQuest].correctAnswer}</p>
+                <p>You answered: {optionChosen}</p> */}
 
 			</div>
         </div>

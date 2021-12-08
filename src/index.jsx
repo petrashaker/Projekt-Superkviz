@@ -19,7 +19,7 @@ const App = () => {
   }
   // console.log(quiznb)
 
-  useEffect(() => {}, [quiznb])
+  // useEffect(() => {}, [quiznb])
 
   return (
     <>
