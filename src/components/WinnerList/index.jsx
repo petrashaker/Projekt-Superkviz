@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-
 import './style.css';
 
-const Zebricek = () => {
+const WinnerList = () => {
     const [score, setScore] = useState(null);
 
     const fetchScore = () => {
@@ -36,4 +35,4 @@ const Zebricek = () => {
     )
 }
 
-export default Zebricek;
+export default WinnerList;

@@ -2,8 +2,6 @@ import React from "react";
 import './style.css';
 
 import { NavLink } from "react-router-dom";
-import Uvod from "../Uvod";
-import Kvizy from "../Kvizy";
 
 const Header = () => (
     <header className="header">
